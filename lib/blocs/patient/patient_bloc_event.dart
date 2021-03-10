@@ -8,6 +8,7 @@ class GetPatientAppointmentBlocEvent extends PatientAppointmentBlocEvent {
   List<Object> get props => [];
 }
 
+//search patient event
 class SearchPatientEvent extends PatientAppointmentBlocEvent {
   final String keyword;
 
@@ -17,6 +18,7 @@ class SearchPatientEvent extends PatientAppointmentBlocEvent {
   List<Object> get props => [this.keyword];
 }
 
+//providers list event
 class GetProvidersListEvent extends PatientAppointmentBlocEvent {
   final String memberId;
 

@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeLandScape extends StatefulWidget {
+  static const String routeName = '/HomeLandScape';
   HomeLandScape({key}) : super(key: key);
   @override
   _HomeLandScapeState createState() => _HomeLandScapeState();

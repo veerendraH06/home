@@ -17,7 +17,7 @@ class PatientBloc
       PatientAppointmentBlocEvent event) async* {
     print("mapEventToState=$event");
 
-    //Get patient appointment event
+    // Get patient appointment event
     // if (event is GetPatientAppointmentBlocEvent) {
     //   yield state.copyWith(
     //     isLoading: true,
@@ -33,10 +33,11 @@ class PatientBloc
     //     yield state.copyWith(isLoading: false, errorMsg: null, users: users);
     //   }
     // }
-    //search patient event
-    // if (event is SearchPatientEvent) {
-    //   yield state.copyWith(keyword: event.keyword);
-    // }
+
+    // search patient event
+    if (event is SearchPatientEvent) {
+      yield state.copyWith(keyword: event.keyword);
+    }
 
     //schedule patient list event
     if (event is GetSchedulePatientsList) {

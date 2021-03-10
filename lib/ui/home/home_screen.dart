@@ -1,18 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
-import 'package:YOURDRS_FlutterAPP/common/app_filter_menu.dart';
-import 'package:YOURDRS_FlutterAPP/common/app_pop_menu.dart';
-import 'package:YOURDRS_FlutterAPP/network/models/appointment.dart';
-import 'package:YOURDRS_FlutterAPP/network/services/appointment_service.dart';
+import 'package:YOURDRS_FlutterAPP/blocs/patient/patient_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/ui/home/home_landscape.dart';
 import 'package:YOURDRS_FlutterAPP/ui/home/home_portrait..dart';
-import 'package:YOURDRS_FlutterAPP/ui/home/patient_details.dart';
-import 'package:YOURDRS_FlutterAPP/widget/input_fields/search_bar.dart';
-import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PatientAppointment extends StatefulWidget {
+
+  static const String routeName = '/PatientAppointment';
+
   @override
   _PatientAppointmentState createState() => _PatientAppointmentState();
 }

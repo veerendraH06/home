@@ -3,6 +3,9 @@ import 'package:YOURDRS_FlutterAPP/network/models/schedule.dart';
 import 'package:flutter/material.dart';
 
 class PatientDetail extends StatefulWidget {
+
+static const String routName = '/PatientDetail';
+
   @override
 
   _PatientDetailState createState() => _PatientDetailState();

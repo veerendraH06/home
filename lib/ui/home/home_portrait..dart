@@ -20,7 +20,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class HomePortrait extends StatefulWidget {
-  HomePortrait({key}) : super(key: key);
+  static const String routeName = '/HomePortrait';
+
+  // HomePortrait({key}) : super(key: key);
   @override
   _HomePortraitState createState() => _HomePortraitState();
 }
@@ -44,7 +46,6 @@ class Debouncer {
 class _HomePortraitState extends State<HomePortrait> {
   GlobalKey _key = GlobalKey();
   final _debouncer = Debouncer(milliseconds: 500);
-
 
   Map<String, dynamic> appointment;
   var _currentSelectedProviderId;
@@ -76,13 +77,10 @@ class _HomePortraitState extends State<HomePortrait> {
   }
 
 //filter method  for selected date
+  DateTime _selectedValue = DateTime.now();
 
 //Date Picker Controller related code
   DatePickerController _controller = DatePickerController();
-
-  DateTime _selectedValue = DateTime.now();
-
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,33 +141,34 @@ class _HomePortraitState extends State<HomePortrait> {
                             ),
                             actions: <Widget>[
                               //provider searchable Dropdown
-                              ProviderDropDowns(
-                                  onTapOfProviders: (newValue) {
-                                    print('onTap newValue $newValue');
-                                    setState(() {
-                                      _currentSelectedProviderId = (newValue as ProviderList).providerId;
-                                      print(
-                                          'onTap _currentSelectedProviderId $_currentSelectedProviderId');
-                                    },
-                                    );
-                                  }
-                              ),
+                              ProviderDropDowns(onTapOfProviders: (newValue) {
+                                print('onTap newValue $newValue');
+                                setState(
+                                  () {
+                                    _currentSelectedProviderId =
+                                        (newValue as ProviderList).providerId;
+                                    print(
+                                        'onTap _currentSelectedProviderId $_currentSelectedProviderId');
+                                  },
+                                );
+                              }),
 
                               //Dictation Searchable Dropdown
-                              DictationSearch(onTapOfDictation: ( newValue) {
+                              DictationSearch(onTapOfDictation: (newValue) {
                                 setState(() {
-                                  _currentSelectedDictationId =  (newValue as DictationStatus).dictationstatusid;
+                                  _currentSelectedDictationId =
+                                      (newValue as DictationStatus)
+                                          .dictationstatusid;
 
                                   print(_currentSelectedDictationId);
                                 });
                               }),
 
                               //location searchable dropdown
-                              LocationDropDown(
-                                  onTapOfLocation: ( newValue) {
-                                    _currentSelectedLocationId = newValue.locationId;
-                                    print(_currentSelectedLocationId);
-
+                              LocationDropDown(onTapOfLocation: (newValue) {
+                                _currentSelectedLocationId =
+                                    newValue.locationId;
+                                print(_currentSelectedLocationId);
                               }),
 
                               Row(
@@ -188,14 +187,14 @@ class _HomePortraitState extends State<HomePortrait> {
                                     child: RaisedButton.icon(
                                         padding:
                                             EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                        onPressed: () async { //date filter package it will show selected date
+                                        onPressed: () async {
+                                          //date filter package it will show selected date
                                           final List<String> result =
                                               await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          DateFilter())
-                                              );
+                                                          DateFilter()));
                                           //select more than one date
                                           startDate = result.first;
 
@@ -205,7 +204,6 @@ class _HomePortraitState extends State<HomePortrait> {
 
                                           print("range2" + endDate);
                                         },
-
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.0))),
@@ -217,7 +215,6 @@ class _HomePortraitState extends State<HomePortrait> {
                                                   .buttonTitleColor),
                                         ),
                                         icon: Icon(Icons.date_range),
-
                                         splashColor:
                                             CustomizedColors.primaryColor,
                                         color: Colors.white),
@@ -245,8 +242,8 @@ class _HomePortraitState extends State<HomePortrait> {
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  title:
-                                                      Text('Search Patients'),  // search patient alert dialog box
+                                                  title: Text(
+                                                      'Search Patients'), // search patient alert dialog box
                                                   content: TextField(
                                                     onChanged: (value) {
                                                       setState(() {
@@ -388,33 +385,30 @@ class _HomePortraitState extends State<HomePortrait> {
                                         visibleClearFilter = false;
                                       });
 
-                                      BlocProvider.of<PatientBloc>(context).add(
-                                          GetSchedulePatientsList(
+                                      BlocProvider.of<PatientBloc>(
+                                              context)
+                                          .add(GetSchedulePatientsList(
                                               keyword1: null,
-                                              providerId: _currentSelectedProviderId !=
-                                                      null
-                                                  ? _currentSelectedProviderId
-                                                  : null,
+                                              providerId:
+                                                  _currentSelectedProviderId !=
+                                                          null
+                                                      ? _currentSelectedProviderId
+                                                      : null,
                                               locationId:
                                                   _currentSelectedLocationId !=
                                                           null
-                                                      ?
-                                                          _currentSelectedLocationId
-
+                                                      ? _currentSelectedLocationId
                                                       : null,
                                               dictationId:
                                                   _currentSelectedDictationId !=
                                                           null
-                                                      ?
-                                                  int.tryParse(
-                                                          _currentSelectedDictationId
-                                          )
+                                                      ? int
+                                                          .tryParse(
+                                                              _currentSelectedDictationId)
                                                       : null,
-                                              startDate:
-                                                  startDate !=
-                                                          ""
-                                                      ? startDate
-                                                      : null,
+                                              startDate: startDate != ""
+                                                  ? startDate
+                                                  : null,
                                               endDate: endDate != ""
                                                   ? endDate
                                                   : null,
@@ -422,7 +416,9 @@ class _HomePortraitState extends State<HomePortrait> {
                                                           ._textFieldController
                                                           .text !=
                                                       null
-                                                  ? this._textFieldController.text
+                                                  ? this
+                                                      ._textFieldController
+                                                      .text
                                                   : null));
                                     },
                                     child: Text('Ok'),
@@ -456,32 +452,28 @@ class _HomePortraitState extends State<HomePortrait> {
                           style: TextStyle(),
                         ),
                         actions: <Widget>[
-                          ProviderDropDowns(
-                              onTapOfProviders: (newValue) {
-                              print('onTap newValue $newValue');
-                              setState(() {
-                              _currentSelectedProviderId = (newValue as ProviderList).providerId;
-                              // print('onTap _currentSelectedProviderId $_currentSelectedProviderId');
-
-                            },
-                          );
-                            }),
-
+                          ProviderDropDowns(onTapOfProviders: (newValue) {
+                            print('onTap newValue $newValue');
+                            setState(
+                              () {
+                                _currentSelectedProviderId =
+                                    (newValue as ProviderList).providerId;
+                                // print('onTap _currentSelectedProviderId $_currentSelectedProviderId');
+                              },
+                            );
+                          }),
                           DictationSearch(onTapOfDictation: (newValue) {
                             setState(() {
-                              _currentSelectedDictationId =  (newValue as DictationStatus).dictationstatusid;
+                              _currentSelectedDictationId =
+                                  (newValue as DictationStatus)
+                                      .dictationstatusid;
                               print(_currentSelectedDictationId);
                             });
                           }),
-
-                          LocationDropDown(
-                              onTapOfLocation: (String newValue) {
-
+                          LocationDropDown(onTapOfLocation: (String newValue) {
                             _currentSelectedLocationId = newValue;
                             print(_currentSelectedLocationId);
-
-                          }
-                          ),
+                          }),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -536,8 +528,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                               dictationId: null,
                                               startDate: null,
                                               endDate: null,
-                                              searchString: null
-                                          ));
+                                              searchString: null));
                                     },
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -577,17 +568,11 @@ class _HomePortraitState extends State<HomePortrait> {
                                     keyword1: null,
                                     providerId:
                                         _currentSelectedProviderId != null
-                                            ?
-
-                                                _currentSelectedProviderId
-
+                                            ? _currentSelectedProviderId
                                             : null,
                                     locationId:
                                         _currentSelectedLocationId != null
-                                            ?
-
-                                                _currentSelectedLocationId
-
+                                            ? _currentSelectedLocationId
                                             : null,
                                     dictationId:
                                         _currentSelectedDictationId != null
@@ -713,22 +698,16 @@ class _HomePortraitState extends State<HomePortrait> {
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: [
-                                        // Text(
-                                        //   "HEMA 54-DEAN (4)",
-                                        //   textAlign: TextAlign.center,
-                                        //   style: TextStyle(
-                                        //       fontWeight: FontWeight.bold,
-                                        //       fontSize: 18.0),
-                                        // )
-                                      ],
+                                      children: [],
                                     ),
                                     BlocBuilder<PatientBloc,
                                             PatientAppointmentBlocState>(
                                         builder: (context, state) {
                                       print('BlocBuilder state $state');
+
                                       if (state.isLoading) {
-                                        return CircularProgressIndicator();
+                                        return Center(
+                                            child: CircularProgressIndicator());
                                       }
 
                                       if (state.errorMsg != null &&
@@ -740,6 +719,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                           state.patients.isEmpty) {
                                         return Text(
                                           "No patients found",
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 18.0,
                                               fontWeight: FontWeight.bold,
@@ -768,8 +748,8 @@ class _HomePortraitState extends State<HomePortrait> {
 
                                       return filteredPatients != null &&
                                               filteredPatients.isNotEmpty
-                                         ?
-                                      // ListView.separated(
+                                          ?
+                                          // ListView.separated(
                                           //     separatorBuilder:
                                           //         (context, index) => Divider(
                                           //       color: CustomizedColors.title,
@@ -880,122 +860,134 @@ class _HomePortraitState extends State<HomePortrait> {
                                           //     },
                                           //   )
 
-                                      //Grouped list view as per doctors practice location
-                                      Card(
-                                        child: GroupedListView<dynamic,
-                                            String>(
-                                            elements: filteredPatients,
-                                            shrinkWrap: true,
-                                            groupBy: (element) {
-                                              print(
-                                                  'groupBy ${element.practice}');
+                                          //Grouped list view as per doctors practice location
+                                          // group by filtered patients
+                                          Card(
+                                              child: GroupedListView<dynamic,
+                                                      String>(
+                                                  elements: filteredPatients,
+                                                  shrinkWrap: true,
+                                                  groupBy: (element) {
+                                                    print(
+                                                        'groupBy ${element.practice}');
+                                                    return element.practice;
+                                                  },
+                                                  groupSeparatorBuilder: (String
+                                                          practice) =>
+                                                      TransactionGroupSeparator(
+                                                        practice: practice,
+                                                      ),
+                                                  order: GroupedListOrder.ASC,
+                                                  itemBuilder: (context,
+                                                          element) =>
 
-                                              return element.practice;
-                                            },
-                                            groupSeparatorBuilder: (String
-                                            practice) =>
-                                                TransactionGroupSeparator(
-                                                  practice: practice,
-                                                ),
-                                            order: GroupedListOrder.ASC,
-                                            itemBuilder:
-                                                (context, element) =>
-                                                Hero(
-                                                  tag: element,
-                                                  child: Material(
-                                                    child: ListTile(
-                                                      contentPadding:
-                                                      EdgeInsets
-                                                          .all(0),
-                                                      leading: Icon(
-                                                        Icons
-                                                            .bookmark,
-                                                        color: Colors
-                                                            .green,
-                                                      ),
-                                                      onTap: () {
-                                                        Navigator
-                                                            .push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                PatientDetail(),
-                                                            // Pass the arguments as part of the RouteSettings. The
-                                                            // DetailScreen reads the arguments from these settings.
-                                                            settings:
-                                                            RouteSettings(
-                                                              arguments:
-                                                              element,
+                                                      //list out all filtered data and pass the data patient  detail page
+                                                      Hero(
+                                                        tag: element,
+                                                        child: Material(
+                                                          child: ListTile(
+                                                            contentPadding:
+                                                                EdgeInsets.all(
+                                                                    0),
+                                                            leading: Icon(
+                                                              Icons.bookmark,
+                                                              color:
+                                                                  Colors.green,
                                                             ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      title: Text(element
-                                                          .patient
-                                                          .displayName),
-                                                      subtitle:
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            child: Text("Dr." +
-                                                                "" +
-                                                                element.providerName ??
-                                                                ""),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Container(
-                                                                width:
-                                                                50,
-                                                                child: Text(
-                                                                    element.appointmentType ?? "",
-                                                                    style: TextStyle(fontSize: 12.0)),
-                                                              ),
-                                                              Expanded(
-                                                                child:
+                                                            onTap: () {
+                                                              Navigator
+                                                                  .pushNamed(
+                                                                context,
+                                                                '/PatientDetail',
+                                                                arguments:
+                                                                    element,
+                                                              );
+                                                              // Navigator
+                                                              //     .push(
+                                                              //   context,
+                                                              //   MaterialPageRoute(
+                                                              //     builder:
+                                                              //         (context) =>
+                                                              //         PatientDetail(),
+                                                              //     // Pass the arguments as part of the RouteSettings. The
+                                                              //     // DetailScreen reads the arguments from these settings.
+                                                              //     settings:
+                                                              //     RouteSettings(
+                                                              //       arguments:
+                                                              //       element,
+                                                              //     ),
+                                                              //   ),
+                                                              // );
+                                                            },
+                                                            title: Text(element
+                                                                .patient
+                                                                .displayName),
+                                                            subtitle: Column(
+                                                              children: [
                                                                 Container(
-                                                                  width:
-                                                                  75,
-                                                                  child:
-                                                                  Text(
-                                                                    element.appointmentStatus ?? "",
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(fontSize: 12.0),
-                                                                  ),
+                                                                  child: Text("Dr." +
+                                                                          "" +
+                                                                          element
+                                                                              .providerName ??
+                                                                      ""),
                                                                 ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      trailing:
-                                                      Column(
-                                                        children: [
-                                                          Spacer(),
-                                                          Spacer(),
-                                                          RichText(
-                                                            text:
-                                                            TextSpan(
-                                                              text:
-                                                              '• ',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  Colors.red,
-                                                                  fontSize: 14),
-                                                              children: <
-                                                                  TextSpan>[
-                                                                TextSpan(
-                                                                    text: 'Dictation' + element.dictationStatus ?? ""),
+                                                                Row(
+                                                                  children: [
+                                                                    Container(
+                                                                      width: 50,
+                                                                      child: Text(
+                                                                          element.appointmentType ??
+                                                                              "",
+                                                                          style:
+                                                                              TextStyle(fontSize: 12.0)),
+                                                                    ),
+                                                                    Expanded(
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            75,
+                                                                        child:
+                                                                            Text(
+                                                                          element.appointmentStatus ??
+                                                                              "",
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style:
+                                                                              TextStyle(fontSize: 12.0),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ],
                                                             ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )),
-                                      )
+                                                            trailing: Column(
+                                                              children: [
+                                                                Spacer(),
+                                                                Spacer(),
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text: '• ',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .red,
+                                                                        fontSize:
+                                                                            14),
+                                                                    children: <
+                                                                        TextSpan>[
+                                                                      TextSpan(
+                                                                          text: 'Dictation' + element.dictationStatus ??
+                                                                              ""),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )),
+                                            )
                                           : Container(
                                               child: Column(
                                                 mainAxisAlignment:
@@ -1048,7 +1040,20 @@ class _HomePortraitState extends State<HomePortrait> {
       ),
     );
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BlocProvider.of<PatientBloc>(context).add(GetSchedulePatientsList(
+        keyword1: null,
+        providerId: null,
+        locationId: null,
+        dictationId: null,
+        startDate: null,
+        endDate: null));
+  }
 }
+
 class TransactionGroupSeparator extends StatelessWidget {
   final String practice;
   TransactionGroupSeparator({this.practice});
