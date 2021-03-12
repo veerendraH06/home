@@ -21,16 +21,13 @@ class Locations {
 
   factory Locations.fromJson(Map<String, dynamic> json) => Locations(
     header: json["header"] == null ? null : Header.fromJson(json["header"]),
-    locationList: json["locationList"] == null
-        ? null
-        : List<LocationList>.from(
-        json["locationList"].map((x) => LocationList.fromJson(x))),
+    locationList: json["locationList"] == null ? null
+        : List<LocationList>.from( json["locationList"].map((x) => LocationList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "header": header == null ? null : header.toJson(),
-    "locationList": locationList == null
-        ? null
+    "locationList": locationList == null ? null
         : List<dynamic>.from(locationList.map((x) => x.toJson())),
   };
 }
@@ -60,6 +57,7 @@ class Header {
   };
 }
 
+// ignore: must_be_immutable
 class LocationList extends Equatable {
   LocationList({
     this.locationId,

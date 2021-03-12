@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'package:YOURDRS_FlutterAPP/common/app_constants.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/network/models/appointment.dart';
 import 'package:YOURDRS_FlutterAPP/network/models/dictation_status.dart';
 import 'package:YOURDRS_FlutterAPP/network/models/location.dart';
 import 'package:YOURDRS_FlutterAPP/network/models/provider.dart';
 import 'package:YOURDRS_FlutterAPP/network/models/schedule.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:http/http.dart' as http;
 
 class Services {
-  static const String url = 'https://jsonplaceholder.typicode.com/users';
+  // static const String url = 'https://jsonplaceholder.typicode.com/users';
 
 //getUsers service method
 //   static Future<List<Patients>> getUsers() async {
@@ -33,18 +30,18 @@ class Services {
   //   return parsed.map<Patients>((json) => Patients.fromJson(json)).toList();
   // }
 
-  //getSchedule service method
+  //getSchedule service in post method
   static Future<List<ScheduleList>> getSchedule(
       String date,
       int providerId,
       int locationId,
       int dictationId,
       String startDate,
-
       String endDate,
       String searchString) async {
     String apiUrl = ApiUrlConstants.getSchedules;
     DateTime defaultDate = DateTime.now();
+    try{
     var todayDate = AppConstants.parseDate(-1, AppConstants.MMDDYYYY,
         dateTime: defaultDate);
     final json = {
@@ -65,7 +62,7 @@ class Services {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-try{
+
   if (response.statusCode == 200) {
     Schedule schedule =
     Schedule.fromJson(jsonDecode(response.body.toString()));
@@ -144,10 +141,7 @@ Future<DictationStatus> getDictions() async{
     try{
       var endpointurl =ApiUrlConstants.getDictations;
 
-      Map<String, String> queryParams ={
-        'MenberId': '1',
-
-      };
+      Map<String, String> queryParams ={'MemberId': '1',};
       String queryString =Uri(queryParameters: queryParams).query;
       var requestUrl =endpointurl + '?' + queryString;
       final response =await http.get(Uri.encodeFull(requestUrl),
@@ -169,8 +163,10 @@ Future<DictationStatus> getDictions() async{
   }
 
 }
+
 static DictationStatus parseDictations(String responseBody){
     final DictationStatus dictations =DictationStatus.fromJson(json.decode(responseBody));
     return dictations;
 }
+
 }

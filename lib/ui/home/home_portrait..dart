@@ -237,8 +237,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                                 .homeSubtitleColor)),
                                     child: RaisedButton.icon(
                                         padding: EdgeInsets.only(left: 25),
-                                        onPressed: () {
-                                          return showDialog(
+                                        onPressed: () { showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
@@ -452,6 +451,7 @@ class _HomePortraitState extends State<HomePortrait> {
                           style: TextStyle(),
                         ),
                         actions: <Widget>[
+                          ///provider searchable dropdown
                           ProviderDropDowns(onTapOfProviders: (newValue) {
                             print('onTap newValue $newValue');
                             setState(
@@ -462,6 +462,7 @@ class _HomePortraitState extends State<HomePortrait> {
                               },
                             );
                           }),
+                          ///dictation searchable dropdown
                           DictationSearch(onTapOfDictation: (newValue) {
                             setState(() {
                               _currentSelectedDictationId =
@@ -470,6 +471,7 @@ class _HomePortraitState extends State<HomePortrait> {
                               print(_currentSelectedDictationId);
                             });
                           }),
+                          ///location searchable dropdown
                           LocationDropDown(onTapOfLocation: (String newValue) {
                             _currentSelectedLocationId = newValue;
                             print(_currentSelectedLocationId);
@@ -484,14 +486,17 @@ class _HomePortraitState extends State<HomePortrait> {
                                     padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
+                                          context, ///Date filter in select filter alert box
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  DateFilter()));
+                                                  DateFilter()
+                                          )
+                                      );
                                     },
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0))),
+                                            Radius.circular(5.0))
+                                    ),
                                     label: Text(
                                       'Date Filter',
                                       style: TextStyle(
@@ -499,8 +504,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                           color: CustomizedColors
                                               .buttonTitleColor),
                                     ),
-                                    icon: Icon(null),
-                                    // textColor: Colors.red,
+                                    icon: Icon(Icons.date_range_sharp),
                                     splashColor: CustomizedColors.primaryColor,
                                     color: Colors.white),
                               ),
@@ -519,6 +523,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                         visibleSearchFilter = false;
                                         visibleClearFilter = true;
                                       });
+                                      /// clear all selected filters
                                       Navigator.pop(context);
                                       BlocProvider.of<PatientBloc>(context).add(
                                           GetSchedulePatientsList(
@@ -540,7 +545,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                           color: CustomizedColors
                                               .buttonTitleColor),
                                     ),
-                                    icon: Icon(null),
+                                    icon: Icon(Icons.filter_alt_sharp),
                                     // textColor: Colors.red,
                                     splashColor: CustomizedColors.primaryColor,
                                     color: Colors.white),
@@ -556,6 +561,7 @@ class _HomePortraitState extends State<HomePortrait> {
                                 },
                                 child: Text('Cancel'),
                               ),
+                              ///Passing data from alert dialog box to home page
                               FlatButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -590,7 +596,7 @@ class _HomePortraitState extends State<HomePortrait> {
                     );
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -902,22 +908,6 @@ class _HomePortraitState extends State<HomePortrait> {
                                                                 arguments:
                                                                     element,
                                                               );
-                                                              // Navigator
-                                                              //     .push(
-                                                              //   context,
-                                                              //   MaterialPageRoute(
-                                                              //     builder:
-                                                              //         (context) =>
-                                                              //         PatientDetail(),
-                                                              //     // Pass the arguments as part of the RouteSettings. The
-                                                              //     // DetailScreen reads the arguments from these settings.
-                                                              //     settings:
-                                                              //     RouteSettings(
-                                                              //       arguments:
-                                                              //       element,
-                                                              //     ),
-                                                              //   ),
-                                                              // );
                                                             },
                                                             title: Text(element
                                                                 .patient
@@ -1030,9 +1020,7 @@ class _HomePortraitState extends State<HomePortrait> {
                     backgroundColor: CustomizedColors.primaryColor,
                     onPressed: () {},
                     tooltip: 'Increment',
-                    child: Pop(
-                      initialValue: 1,
-                    )),
+                    child: Pop(initialValue: 1,)),
               ),
             ),
           ],
@@ -1041,18 +1029,8 @@ class _HomePortraitState extends State<HomePortrait> {
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    BlocProvider.of<PatientBloc>(context).add(GetSchedulePatientsList(
-        keyword1: null,
-        providerId: null,
-        locationId: null,
-        dictationId: null,
-        startDate: null,
-        endDate: null));
-  }
 }
+
 
 class TransactionGroupSeparator extends StatelessWidget {
   final String practice;
